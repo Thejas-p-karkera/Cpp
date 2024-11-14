@@ -100,14 +100,22 @@ void deleteAtPosition(Node*& head, int pos)
 
 	Node* prev = head;
 	int currentPos = 0;
-	while (currentPos != pos - 1)
+
+	while (currentPos != pos - 1 && prev->next != NULL)
 	{
 		prev = prev->next;
-		pos++;
+		currentPos++;
 	}
+
+	if (prev->next == NULL)
+	{
+		cout << "Position out of bounds." << endl;
+		return;
+	}
+
 	Node* temp = prev->next;
-	prev->next = prev->next->next;
-	free(temp);
+	prev->next = temp->next;
+	delete temp;
 }
 
 void display(Node* head)
@@ -121,7 +129,7 @@ void display(Node* head)
 	cout << "NULL" << endl;
 }
 
-void main()
+int main()
 {
 	Node* head = NULL;
 
@@ -131,7 +139,7 @@ void main()
 		int ele;
 		int pos;
 
-		cout << "1. Display." << endl;
+		cout << "\n1. Display." << endl;
 		cout << "2. Insert at Front." << endl;
 		cout << "3. Insert at Rear." << endl;
 		cout << "4. Insert at a position." << endl;
@@ -193,29 +201,9 @@ void main()
 				break;
 
 			case 9:
-				return;
+				return 0;
 
 		}
 	}
-	//return 0;
 }
-	/*insertAtHead(head,2);
-	display(head);
-	insertAtHead(head,1);
-	display(head);
-	insertAtTail(head, 3);
-	display(head);
-	insertAtPosition(head, 4, 1);
-	display(head);
-	updateAtPosition(head, 2, 5);
-	display(head);
-	deleteAtHead(head);
-	display(head);
-	deleteAtTail(head);
-	display(head);
-	deleteAtPosition(head, 1);
-	display(head);*/
-
-	//Node* n = new Node(1);
-	//cout << n->val << " " << n->next << endl;
 
