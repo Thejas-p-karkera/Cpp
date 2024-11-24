@@ -1,15 +1,28 @@
+//1 2 3
+//0 5 6
+//0 0 9
+
 #include<iostream>
 using namespace std;
 
 void main()
 {
-	for(int i = 1; i <= 9; i=i+2)
+	int matrix[3][3] = { {1,2,3},{4,5,6},{7,8,9} };
+
+	for (int i = 0; i<3; i ++)
 	{
-		for(int j = 4; j >= 0; j--)
+		for (int j = 0; j < 3; j++)
 		{
-			cout<<" ";
+			if (j<i)
+			{
+				cout << "0 ";
+			}
+			else
+			{
+				cout << matrix[i][j]<<" ";
+			}
 		}
 
-		cout<<"*"<<endl;
+		cout << endl;
 	}
 }
