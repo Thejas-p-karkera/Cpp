@@ -1,106 +1,153 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
+
 class Node
 {
-public:
-	int data;
-	Node* next;
-Node(int val)
-{
-	data=val;
-	next=NULL;
-}
-};
-class link
-{
-public:
-	Node* head;
-	link()
-	{
-		head=NULL;
-	}
-	void push(int val)
-	{
-		Node *newnode=new Node(val);
-	    if(head==NULL)
-		{
-			head=newnode;
-			return;
-		}
-		Node *temp=head;
-		while(temp->next!=NULL)
-		{
-			temp=temp->next;
-		}
-		temp->next=newnode;
-	}
-	void pop()
-	{
-		Node *temp;
-		if(head==NULL)
-		{
-			cout<<"empty list";
-		}
-		else
-		{
-			temp=head;
-			head=head->next;
-			delete temp;
-		}
-	}
-	void display()
-	{
-		Node *temp=head;
-		while(temp!=NULL)
-		{
-			cout<<temp->data<<"->";
-			temp=temp->next;
-		}
-		cout<<"NULL"<<endl;
-	}
-};
-void main()
-{
-	link l;
-	int ch;
-	int ele;
-	cout<<"queue operations using linked list"<<endl;
-	cout<<"1.push"<<endl;
-	cout<<"2.pop"<<endl;
-	cout<<"3.display"<<endl;
-	cout<<"4.exit"<<endl;
-	do
-	{
-	cout<<"enter your choice:";
-	cin>>ch;
-	switch(ch)
-	{
-	case 1:
-		{
-			cout<<"enter the element to insert:";
-			cin>>ele;
-			l.push(ele);
-		}
-		break;
-	case 2:
-		{
-			cout<<"element is removed"<<endl;
-			l.pop();
+    public:
+        int val;
+        Node* next;
 
-		}
-		break;
-	case 3:
-		{
-			l.display();
-		}
-		break;
-	default:
-		{
-			cout<<"Invalid choice"<<endl;
-			break;
-			}
-	}
-	}
-	while(ch!=4);
-}
+        Node(int data) 
+        {
+            val = data;
+            next = NULL;
+        }
+};
 
+class Queue 
+{
+    private:
+        Node* front;
+        Node* rear;
+
+    public:
+        Queue() 
+        {
+            front = NULL;
+            rear = NULL;
+        }
+
+    void enqueue(int val)
+    {
+        Node* newNode = new Node(val);
+        if (rear == NULL) 
+        {
+            front = rear = newNode;
+            return;
+        }
+
+        rear->next = newNode;
+        rear = newNode;
+    }
+
+    void dequeue() 
+    {
+        if (front == NULL)
+        {
+            cout << "Queue Underflow" << endl;
+            return;
+        }
+
+        Node* temp = front;
+        front = front->next;
+        if (front == NULL) 
+        {
+            rear = NULL;
+        }
+        delete temp;
+    }
+
+    void peek()
+    {
+        if (front == NULL) 
+        {
+            cout << "Queue is empty" << endl;
+        }
+        else
+        {
+            cout << "Top element is " << front->val << endl;
+        }
+    }
+
+    void isEmpty() 
+    {
+        if (front == NULL)
+        {
+            cout << "Queue is empty" << endl;
+        }
+        else
+        {
+            cout << "Queue is not empty" << endl;
+        }
+    }
+
+    void display() 
+    {
+        if (front == NULL) 
+        {
+            cout << "Queue is empty" << endl;
+            return;
+        }
+
+        Node* temp = front;
+        while (temp != NULL) 
+        {
+            cout << "<-" << temp->val;
+            temp = temp->next;
+            //if (temp != NULL) cout << "->";  // Add "->" only between elements
+        }
+        //cout << endl;
+    }
+};
+
+int main() 
+{
+    Queue q;
+    int choice, value;
+
+    while (true) 
+    {
+        cout << "\nMenu:\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Peek\n";
+        cout << "4. Check if Empty\n";
+        cout << "5. Display Queue\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) 
+        {
+            case 1:
+                cout << "Enter the value to enqueue: ";
+                cin >> value;
+                q.enqueue(value);
+                break;
+
+            case 2:
+                q.dequeue();
+                break;
+
+            case 3:
+                q.peek();
+                break;
+
+            case 4:
+                q.isEmpty();
+                break;
+
+            case 5:
+                q.display();
+                break;
+
+            case 6:
+                cout << "Exiting program." << endl;
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+    return 0;
+}
