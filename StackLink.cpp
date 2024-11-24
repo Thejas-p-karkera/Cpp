@@ -1,114 +1,143 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
+
 class Node
 {
-public:
-	int data;
-	Node* next;
-Node(int val)
-{
-	data=val;
-	next=NULL;
-}
-};
-class link
-{
-public:
-	Node* head;
-	link()
-	{
-		head=NULL;
-	}
-	void push(int val)
-	{
-		Node *newnode=new Node(val);
-	    if(head==NULL)
-		{
-			head=newnode;
-			return;
-		}
-		Node *temp=head;
-		while(temp->next!=NULL)
-		{
-			temp=temp->next;
-		}
-		temp->next=newnode;
-	}
-	void pop()
-	{
-		Node *t1,*t2;
-		if(head==NULL)
-		{
-			cout<<"empty list";
-			return;
-		}
-		else
-		{
-			t1=NULL;
-			t2=head;
-			while(t2->next!=NULL)
-			{
-				t1=t2;
-				t2=t2->next;
-			}
-			delete t2;
-			if(t1!=NULL)
-				t1->next=NULL;
-		}
-	}
-	void display()
-	{
-		Node *temp=head;
-		while(temp!=NULL)
-		{
-			cout<<temp->data<<"->";
-			temp=temp->next;
-		}
-		cout<<"NULL"<<endl;
-	}
-};
-void main()
-{
-	link l;
-	int ch;
-	int ele;
-	cout<<"stack operations using linked list"<<endl;
-	cout<<"1.push"<<endl;
-	cout<<"2.pop"<<endl;
-	cout<<"3.display"<<endl;
-	cout<<"4.exit"<<endl;
-	do
-	{
-	cout<<"enter your choice:";
-	cin>>ch;
-	switch(ch)
-	{
-	case 1:
-		{
-			cout<<"enter the element to insert:";
-			cin>>ele;
-			l.push(ele);
-		}
-		break;
-	case 2:
-		{
-			cout<<"element is removed"<<endl;
-			l.pop();
+    public:
+        int val;
+        Node* next;
 
-		}
-		break;
-	case 3:
-		{
-			l.display();
-		}
-		break;
-	default:
-		{
-			cout<<"Invalid choice"<<endl;
-			break;
-			}
-	}
-	}
-	while(ch!=4);
-}
+        Node(int data)
+        {
+            val = data;
+            next = NULL;
+        }
+};
 
+class Stack 
+{
+    private:
+        Node* top;
+
+    public:
+        Stack()
+        {
+            top = NULL;
+        }
+
+    void push(int val)
+    {
+        Node* newNode = new Node(val);
+        newNode->next = top;
+        top = newNode;
+    }
+
+    void pop()
+    {
+        if (top == NULL)
+        {
+            cout << "Stack Underflow" << endl;
+            return;
+        }
+
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+
+    void peek()
+    {
+        if (top == NULL)
+        {
+            cout << "Stack is empty" << endl;
+        }
+        else
+        {
+            cout << "Top element is " << top->val << endl;
+        }
+    }
+
+    void isEmpty()
+    {
+        if (top == NULL) 
+        {
+            cout << "Stack is empty" << endl;
+        }
+        else
+        {
+            cout << "Stack is not empty" << endl;
+        }
+
+    }
+
+    void display()
+    {
+        if (top == NULL)
+        {
+            cout << "Stack is empty" << endl;
+            return;
+        }
+
+        Node* temp = top;
+
+        while (temp != NULL)
+        {
+            cout << "<-" << temp->val ;
+            temp = temp->next;
+        }
+        //cout << "NULL" << endl;
+    }
+};
+
+int main()
+{
+    Stack s;
+    int choice, value;
+
+    while (true)
+    {
+        cout << "\nMenu:\n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. Peek\n";
+        cout << "4. Check if Empty\n";
+        cout << "5. Display Stack\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) 
+        {
+        case 1:
+            cout << "Enter the value to push: ";
+            cin >> value;
+            s.push(value);
+            break;
+
+        case 2:
+            s.pop();
+            break;
+
+        case 3:
+            s.peek();
+            break;
+
+        case 4:
+            s.isEmpty();
+            break;
+
+        case 5:
+            s.display();
+            break;
+
+        case 6:
+            cout << "Exiting program." << endl;
+            return 0;
+
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
