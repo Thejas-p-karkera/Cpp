@@ -11,7 +11,7 @@ public:
 	Node(int val)
 	{
 		data = val;
-		left = NULL;;
+		left = NULL;
 		right = NULL;
 	}
 };
@@ -38,7 +38,7 @@ void search(Node* root,int key)
 {
 	if (root == NULL)
 	{
-		cout << "The search element is not found.";
+		cout << "\nThe search element is not found.";
 		return;
 	}
 
@@ -52,7 +52,7 @@ void search(Node* root,int key)
 	}
 	else
 	{
-		cout << "The search element found in thee tree.";
+		cout << "\nThe search element found in thee tree.";
 		return;
 	}	
 }
@@ -69,6 +69,12 @@ Node* inorderSucc(Node* root)
 
 Node* deleteBST(Node* root, int key)
 {
+	if (root == NULL)
+	{
+		cout << "\nThe element is not found to delete.";
+		return NULL;
+	}
+
 	if (key < root->data)
 	{
 		root->left = deleteBST(root->left, key);
@@ -97,8 +103,8 @@ Node* deleteBST(Node* root, int key)
 			root->data = temp->data;
 			root->right = deleteBST(root->right, temp->data);
 		}
-		return root;
 	}
+	return root;
 }
 
 void inorder(Node* root)
@@ -127,20 +133,18 @@ int main()
 		cin >> ele;
 		root = insertBST(root, ele);
 	}
-	/*root = insertBST(root, 5);
-	insertBST(root, 7);
-	insertBST(root, 3);
-	insertBST(root, 2);
-	insertBST(root, 9);*/
+
+	cout << "The elements in the BST: ";
 	inorder(root);
 
-	cout << "Enter the search element: ";
+	cout << "\nEnter the search element: ";
 	cin >> ele;
 	search(root, ele);
 
-	cout << "Enter the element you want to delete: ";
+	cout << "\nEnter the element you want to delete: ";
 	cin >> ele;
 	deleteBST(root, ele);
+	cout << "The elements in the BST after deleting: ";
 	inorder(root);
 
 	
