@@ -1,78 +1,80 @@
-//Tree construction from post - order and inorder
+//Tree construction from post-order and inorder
 
 #include<iostream>
 using namespace std;
 
 class Node
 {
-public:
-    int data;
-    Node* right;
-    Node* left;
+	public:
+		int data;
+		Node* left;
+		Node* right;
 
-    Node(int val)
-    {
-        data = val;
-        right = NULL;
-        left = NULL;
-    }
+		Node(int val)
+		{
+			data = val;
+			left = NULL;
+			right = NULL;
+		}
 };
 
-int search(int inorder[], int start, int end, int val)
+int search(int inorder[], int strt, int end, int curr)
 {
-    for (int i = start; i <= end; i++)
-    {
-        if (inorder[i] == val)
-        {
-            return i;
-        }
-    }
-    return -1;
+	for(int i=strt; i<=end; i++)
+	{
+		if(inorder[i] == curr)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
-Node* maketree(int postorder[], int inorder[], int start, int end)
+Node* buildTree(int postorder[], int inorder[], int strt, int end)
 {
-    static int idx = 4;
-    if (start > end)
-    {
-        return NULL;
-    }
+	static int idx = 4;
 
-    int val = postorder[idx];
-    idx--;
-    Node* curr = new Node(val);
+	if(strt > end)
+	{
+		return NULL;
+	}
 
-    if (start == end)
-    {
-        return curr;
-    }
+	int curr = postorder[idx];
+	idx--;
 
-    int pos = search(inorder, start, end, val);
-    curr->right = maketree(postorder, inorder, pos + 1, end);
-    curr->left = maketree(postorder, inorder, start, pos - 1);
+	Node* node = new Node(curr);
 
-    return curr;
+	if(strt == end)
+	{
+		return node;
+	}
+
+	int pos = search(inorder, strt, end, curr);
+	node-> right = buildTree(postorder, inorder, pos+1, end);
+	node-> left = buildTree(postorder, inorder, strt, pos-1);
+	return node;
 }
 
-void print_inorder(Node* root)
+void preOrderprint(Node* root)
 {
-    if (root == NULL)
-    {
-        return;
-    }
+	if(root == NULL)
+	{
+		return;
+	}
 
-    print_inorder(root->left);
-    cout << root->data << " ";
-    print_inorder(root->right);
+	cout << root->data << " ";
+	preOrderprint(root->left);
+    preOrderprint(root->right);
 }
 
 int main()
 {
-    int postorder[] = { 4, 2, 5, 3, 1 };
-    int inorder[] = { 4, 2, 1, 5, 3 };
+	int inorder[] = {4, 2, 1, 5, 3};
+	int postorder[] = {4, 2, 5, 3, 1};
 
-    Node* root = maketree(postorder, inorder, 0, 4);
-    print_inorder(root);
+	Node* root = buildTree(postorder, inorder, 0, 4);
 
-    return 0;
+	preOrderprint(root);
+
+	return 0;
 }
