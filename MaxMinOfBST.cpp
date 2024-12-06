@@ -1,68 +1,69 @@
-#include <iostream>
+#include<iostream>
 using namespace std;
 
-class Node 
+class Node
 {
 public:
-    int data;
-    Node* left;
-    Node* right;
+	int data;
+	Node* left;
+	Node* right;
 
-    Node(int val) 
-    {
-        data = val;
-        left = NULL;
-        right = NULL;
-    }
+	Node(int val)
+	{
+		data = val;
+		left = NULL;
+		right = NULL;
+	}
 };
 
 Node* insertBST(Node* root, int val)
 {
-    if (root == NULL) 
-    {
-        return new Node(val);
-    }
-    if (val < root->data)
-    {
-        root->left = insertBST(root->left, val);
-    }
-    else
-    {
-        root->right = insertBST(root->right, val);
-    }
-    return root;
-}
+	if(root==NULL)
+	{
+		return new Node(val);
+	}
 
-void findMin(Node* root)
-{
-    if (root == NULL) 
-    {
-        cout << "\nThe subtree is empty.";
-        return;
-    }
-
-    Node* curr = root;
-    while (curr->left != NULL)
-    {                               // Traverse to the leftmost node
-        curr = curr->left;
-    }
-    cout << "\nThe minimum value in the BST is: " << curr->data;
+	if(val < root->data)
+	{
+		root->left = insertBST(root->left,val);
+	}
+	else
+	{
+		root->right = insertBST(root->right,val);
+	}
+	return root;
 }
 
 void findMax(Node* root)
 {
-    if (root == NULL) 
-    {
-        cout << "\nThe subtree is empty.";
-        return;
-    }
+	if(root == NULL)
+	{
+		cout<<"\nEmpty tree";
+		return;
+	}
 
-    Node* curr = root;
-    while (curr->right != NULL)
-    {                                         // Traverse to the rightmost node
-        curr = curr->right;
-    }
-    cout << "\nThe maximum value in the BST is: " << curr->data;
+	Node* curr = root;
+	while(curr->right != NULL)
+	{
+		curr = curr->right;
+	}
+	cout<<"\nMaximum element is: "<<curr->data;
+}
+
+void findMin(Node* root)
+{
+	if(root == NULL)
+	{
+		cout<<"\nEmpty tree";
+		return;
+	}
+
+	Node* curr = root;
+	while(curr->left != NULL)
+	{
+		curr = curr->left;
+	}
+	cout<<"\nMinimum element is: "<<curr->data;
 }
 
 void inorder(Node* root) 
@@ -94,7 +95,6 @@ void main()
     cout << "\nInorder traversal of the BST: ";
     inorder(root);
 
-    findMin(root);
-
     findMax(root);
+	findMin(root);
 }
