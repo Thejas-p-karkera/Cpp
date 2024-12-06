@@ -1,75 +1,74 @@
+//Tree construction from pre-order and inorder
+
 #include<iostream>
 using namespace std;
 
-class Node 
+class Node
 {
-public:
-    int data;
-    Node* left;
-    Node* right;
+	public:
+		int data;
+		Node* left;
+		Node* right;
 
-    Node(int val) 
-    {
-        data = val;
-        left = NULL;
-        right = NULL;
-    }
+		Node(int val)
+		{
+			data = val;
+			left = NULL;
+			right = NULL;
+		}
 };
 
-int search(int inorder[], int start, int end, int curr)
+int search(int inorder[],int strt, int end, int curr)
 {
-    for (int i = start; i <= end; ++i) 
-    {
-        if (inorder[i] == curr) 
-        {
-            return i;
-        }
-    }
-    return -1;
+	for(int i=strt; i<=end; i++)
+	{
+		if(curr == inorder[i])
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
-Node* buildtree(int preorder[], int inorder[], int start, int end)
+Node* buildTree(int preorder [],int inorder [], int strt, int end)
 {
-    static int idx = 0;
-    if (start > end) 
-    {
-        return NULL;
-    }
+	static int idx = 0;
 
-    int curr = preorder[idx];
-    idx++;
-    Node* node = new Node(curr);
+	if(strt>end)
+	{
+		return NULL;
+	}
 
-    /*if(start == end){
-        return node;
-    }*/
+	int curr = preorder[idx];
+	idx ++;
 
-    int pos = search(inorder, start, end, curr);
-    node->left = buildtree(preorder, inorder, start, pos - 1);
-    node->right = buildtree(preorder, inorder, pos + 1, end);
-    return node;
+	Node* node = new Node(curr);
+
+	int pos = search(inorder, strt, end, curr);
+	node->left = buildTree(preorder, inorder , strt, pos-1);
+	node->right = buildTree(preorder , inorder , pos+1, end);
+	return node;
 }
 
-void inorderprint(Node* root)
+void postOrderPrint(Node* root)
 {
-    if (root == NULL)
-    {
-        return;
-    }
+	if(root==NULL)
+	{
+		//cout<<"Emptry tree";
+		return;
+	}
 
-    inorderprint(root->left);
-    cout << root->data << " ";
-    inorderprint(root->right);
+	postOrderPrint(root->left);
+	postOrderPrint(root->right);
+	cout<<root->data<<" ";
 }
 
-int main() 
+int main()
 {
-    //node* root = new node(1);
-    int preorder[] = { 1, 2, 4, 3, 5 };
-    int inorder[] = { 4, 2, 1, 5, 3 };
+	int inorder [] = {4,5,6,3,1,8,7,9,11,10,12};
+	int preorder [] = {1,3,5,4,6,7,8,9,10,11,12};
 
-    Node* root = buildtree(preorder, inorder, 0, 4);
-    inorderprint(root);
+	Node* root = buildTree(preorder ,inorder , 0, 10);
 
-    return 0;
+	postOrderPrint(root);
 }
