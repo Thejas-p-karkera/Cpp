@@ -1,40 +1,49 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
-// Helper function to heapify a subtree rooted at index `i`.
-void heapify(vector<int>& arr, int n, int i) {
-    int largest = i;           // Initialize largest as root
-    int left = 2 * i + 1;      // Left child
-    int right = 2 * i + 2;     // Right child
+// Heapify Down: Maintains the heap property
+void heapify(int arr[], int n, int i)
+{
+    int largest = i;            // Assume current node is the largest
+    int leftChild = 2 * i + 1;  // Left child index
+    int rightChild = 2 * i + 2; // Right child index
 
-    // If left child is larger than root
-    if (left < n && arr[left] > arr[largest])
-        largest = left;
+    // Check if left child exists and is greater than the largest
+    if (leftChild < n && arr[leftChild] > arr[largest])
+        largest = leftChild;
 
-    // If right child is larger than largest so far
-    if (right < n && arr[right] > arr[largest])
-        largest = right;
+    // Check if right child exists and is greater than the largest
+    if (rightChild < n && arr[rightChild] > arr[largest])
+        largest = rightChild;
 
-    // If largest is not root, swap and recursively heapify
-    if (largest != i) {
+    // If the largest is not the current node, swap and heapify
+    if (largest != i)
+    {
         swap(arr[i], arr[largest]);
         heapify(arr, n, largest);
     }
 }
 
-// Main function to perform heap sort
-void heapSort(vector<int>& arr) {
-    int n = arr.size();
-
-    // Step 1: Build a Max-Heap
-    for (int i = n / 2 - 1; i >= 0; i--) {
+// Function to build a max heap
+void buildHeap(int arr[], int n)
+{
+    // Start from the last non-leaf node and move upwards
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
         heapify(arr, n, i);
     }
+}
 
-    // Step 2: Extract elements one by one from the heap
-    for (int i = n - 1; i > 0; i--) {
-        // Move current root (maximum) to the end
+// Heap Sort Algorithm
+void heapSort(int arr[], int n)
+{
+    // Step 1: Build a max heap
+    buildHeap(arr, n);
+
+    // Step 2: Extract elements from the heap one by one
+    for (int i = n - 1; i > 0; i--)
+    {
+        // Move the current root to the end
         swap(arr[0], arr[i]);
 
         // Call heapify on the reduced heap
@@ -42,23 +51,29 @@ void heapSort(vector<int>& arr) {
     }
 }
 
-// Utility function to print an array
-void printArray(const vector<int>& arr) {
-    for (int val : arr)
-        cout << val << " ";
+// Utility function to print the array
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i] << " ";
+    }
     cout << endl;
 }
 
-int main() {
-    vector<int> arr = {10, 20, 15, 30, 40, 50, 25};
+// Main function
+int main()
+{
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
 
     cout << "Original array: ";
-    printArray(arr);
+    printArray(arr, n);
 
-    heapSort(arr);
+    heapSort(arr, n);
 
     cout << "Sorted array: ";
-    printArray(arr);
+    printArray(arr, n);
 
     return 0;
 }
