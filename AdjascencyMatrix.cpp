@@ -41,11 +41,19 @@ int main()
 
 	int src, dst;
 
+	cout<<"Directed or undirected?: "<<endl;
+	cout<<"1. Directed"<<endl;
+	cout<<"2. Undirected"<<endl;
+	cout<<"Enter your choice: ";
+	int ch;
+	if(ch
+
 	for(int i=0; i<m; i++)
 	{
 		cout<<"Enter the edges (source & destination): "<<endl;
 		cin>>src>>dst;
 		arr[src][dst] = 1;
+		arr[dst][src] = 1;
 	}
 	
 	//arr[src][dst] = 1;
