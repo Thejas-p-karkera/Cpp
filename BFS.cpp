@@ -1,51 +1,52 @@
 #include <iostream>
-
 using namespace std;
 
-const int MAX_NODES = 100; // Maximum number of nodes in the graph
+//const int MAX_NODES = 100; // Maximum number of nodes in the graph
 
-class Queue 
+class Queue
 {
-    public:
-        int arr[MAX_NODES];
-		int front, rear;
+public:
+    int* arr;
+    int front, rear, size;
 
-    
-        Queue() 
-        {
-            front = 0;
-            rear = -1;
-        }
 
-		/*bool isFull()
-		{
-			return rear == MAX_NODES-1;
-		}*/
+    Queue(int size)
+    {
+        size = size;
+        arr = new int[size];
+        front = 0;
+        rear = -1;
+    }
 
-		bool empty()
-		{
-			return front > rear;
-		}
+    /*bool isFull()
+    {
+        return rear == MAX_NODES-1;
+    }*/
+
+    bool empty()
+    {
+        return front > rear;
+    }
 
     void enqueue(int val)
     {
         rear++;
-		arr[rear] = val;
+        arr[rear] = val;
     }
 
-    int dequeue() 
+    int dequeue()
     {
-     int removed = arr[front]; 
-	 front++;
-	 return removed;
+        int removed = arr[front];
+        front++;
+        return removed;
     }
 };
 
 
 // Function to perform BFS
-void BFS(int startNode, int graph[MAX_NODES][MAX_NODES], int n)
+void BFS(int startNode, int** graph, int n)
 {
-    bool visited[MAX_NODES]; // Array to keep track of visited nodes
+    bool* visited = new bool[n]; // Array to keep track of visited nodes
 
     // Initialize all nodes as not visited
     for (int i = 0; i < n; i++)
@@ -53,7 +54,7 @@ void BFS(int startNode, int graph[MAX_NODES][MAX_NODES], int n)
         visited[i] = false;
     }
 
-	Queue q;
+    Queue q(n);
     q.enqueue(startNode);
     visited[startNode] = true;
 
@@ -61,13 +62,13 @@ void BFS(int startNode, int graph[MAX_NODES][MAX_NODES], int n)
     while (!q.empty())
     {
         int current = q.dequeue(); // Get the front node in the queue
-        
+
         cout << current << " "; // Print the current node
 
         // Visit all adjacent nodes of the current node
         for (int i = 0; i < n; i++)
         {
-            if (graph[current][i] == 1 && !visited[i])
+            if (graph[current][i] == 1 && visited[i] == false)
             {
                 q.enqueue(i);       // Add the neighbor to the queue
                 visited[i] = true; // Mark it as visited
@@ -75,14 +76,14 @@ void BFS(int startNode, int graph[MAX_NODES][MAX_NODES], int n)
         }
     }
 
-	cout<<"\nUnvisited Nodes :";
-	for(int i=0; i<n; i++)
-	{
-		if(!visited[i])
-		{
-			cout<<i <<" ";
-		}
-	}
+    cout << "\nUnvisited Nodes :";
+    for (int i = 0; i < n; i++)
+    {
+        if (visited[i] == false)
+        {
+            cout << i << " ";
+        }
+    }
 
     cout << endl;
 }
@@ -93,28 +94,45 @@ int main()
     cout << "Enter the number of nodes: ";
     cin >> n;
 
-	int src, dst;
+    int** graph = new int* [n];
 
-	int ch;
+    for (int i = 0; i < n; i++)
+    {
+        graph[i] = new int[n];
+    }
+
+    //Initialize all elements of the array with 0
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            graph[i][j] = 0;
+        }
+    }
+
+    int ch;
     cout << "Enter '0' for Directed graph or '1' for Undirected graph: ";
     cin >> ch;
 
-	int m;
+    int m;
     cout << "Enter the number of edges: ";
     cin >> m;
 
-    int graph[MAX_NODES][MAX_NODES] = {0}; // Adjacency matrix for the graph
 
+    //int graph[n][n] = {0}; // Adjacency matrix for the graph
+
+    int src, dst;
     for (int i = 0; i < m; i++)
     {
-        cout<<"Enter the edges (source & destination): "<<endl;
+        cout << "Enter the edges (source & destination): " << endl;
         cin >> src >> dst;
         graph[src][dst] = 1; // Add edge
 
-		if(ch == 1)
-		{
-			graph[dst][src] = 1; // Add edge for undirected graph
-		}
+        if (ch == 1)
+        {
+            graph[dst][src] = 1; // Add edge for undirected graph
+        }
     }
 
     int startNode;
