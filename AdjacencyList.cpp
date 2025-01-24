@@ -1,52 +1,58 @@
-#include <iostream>
-#include <vector>
+#include<iostream>
 using namespace std;
-
-void printList(vector<vector<int>>& list, int n)
-{
-    cout << "The adjacency list is: " << endl;
-    for (int i = 0; i < n; i++)
-    {
-        cout << i << " -> ";
-        for (int j = 0; j < list[i].size(); j++)
-        {
-			cout << list[i][j]<<" ";
-        }
-        cout << endl;
-    }
-}
 
 void main()
 {
-    int n;
-    cout << "Enter the number of Nodes (Vertices): ";
-    cin >> n;
+	int n;
+	cout << "Enter the number of nodes: ";
+	cin >> n;
 
-    // Create an adjacency list
-    vector<vector<int>> list(n);
+	int** arr = new int* [n];
 
-    int ch;
-    cout << "Enter '0' for Directed graph or '1' for Undirected graph: ";
-    cin >> ch;
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = new int[n];
+	}
 
-    int m;
-    cout << "Enter the number of edges: ";
-    cin >> m;
+	for (int i = 0; i < n; i++)
+	{
+		for(int j = 0; j < n; j++)
+		{
+			arr[i][j] = 0;
+		}
+	}
 
-    int src, dst;
-    for (int i = 0; i < m; i++)
-    {
-        cout << "Enter the edges (source & destination): " << endl;
-        cin >> src >> dst;
+	int ch;
+	cout << "Enter '0' for Directed, '1' for Undirected: ";
+	cin >> ch;
 
-        list[src].push_back(dst);
+	int m;
+	cout << "Enter the number of edges: ";
+	cin >> m;
 
-        if (ch == 1)
-        {
-            list[dst].push_back(src);
-        }
-    }
+	int src, dst;
+	for (int i = 0; i < m; i++)
+	{
+		cout << "Enter Edges (Source & Destination): ";
+		cin >> src >> dst;
 
-    printList(list, n);
+		arr[src][dst] = 1;
+		if (ch == 1)
+		{
+			arr[dst][src] = 1;
+		}
+	}
 
+	for (int i = 0; i < n; i++)
+	{
+		cout << i << " -> ";
+		for (int j = 0; j < n; j++)
+		{
+			if (arr[i][j] == 1)
+			{
+				cout << j << " ";
+			}
+		}
+		cout << endl;
+	}
 }
