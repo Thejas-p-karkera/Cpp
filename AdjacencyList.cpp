@@ -2,33 +2,32 @@
 #include <vector>
 using namespace std;
 
-// Function to print the adjacency list
-void printAdjList(vector<vector<int>>& adjList, int n)
+void printList(vector<vector<int>>& list, int n)
 {
     cout << "The adjacency list is: " << endl;
     for (int i = 0; i < n; i++)
     {
         cout << i << " -> ";
-        for (int j : adjList[i])
+        for (int j = 0; j < list[i].size(); j++)
         {
-            cout << j << " ";
+			cout << list[i][j]<<" ";
         }
         cout << endl;
     }
 }
 
-int main()
+void main()
 {
     int n;
     cout << "Enter the number of Nodes (Vertices): ";
     cin >> n;
 
     // Create an adjacency list
-    vector<vector<int>> adjList(n);
+    vector<vector<int>> list(n);
 
-    char graphType;
-    cout << "Enter 'D' for Directed graph or 'U' for Undirected graph: ";
-    cin >> graphType;
+    int ch;
+    cout << "Enter '0' for Directed graph or '1' for Undirected graph: ";
+    cin >> ch;
 
     int m;
     cout << "Enter the number of edges: ";
@@ -40,14 +39,14 @@ int main()
         cout << "Enter the edges (source & destination): " << endl;
         cin >> src >> dst;
 
-        adjList[src].push_back(dst); // Add edge from src to dst
-        if (graphType == 'U' || graphType == 'u') // For undirected graph
+        list[src].push_back(dst);
+
+        if (ch == 1)
         {
-            adjList[dst].push_back(src); // Add edge from dst to src
+            list[dst].push_back(src);
         }
     }
 
-    printAdjList(adjList, n);
+    printList(list, n);
 
-    return 0;
 }
